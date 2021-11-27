@@ -1,7 +1,7 @@
 import { Optional, Sequelize, Model, DataTypes } from "sequelize";
 
 interface PasswordAttributes {
-  id: string;
+  id: number;
   username: string;
   email: string;
   password: string;
