@@ -1,11 +1,13 @@
 import { decodeJWTToken } from "../util/jwt_utils";
 import { Request, Response, NextFunction } from "express";
+import { PUBLIC_ROUTES } from "../config";
 
 export default function jwtMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
+  if (PUBLIC_ROUTES.includes(req.path)) return next();
   if (req.path === "/api/signin" || req.path === "/api/signup") {
     return next();
   }

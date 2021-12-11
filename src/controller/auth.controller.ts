@@ -68,3 +68,29 @@ export const signup = async (req: Request, res: Response) => {
     return res.status(500).json({ error: error.message }).end();
   }
 };
+
+export const showSignup = async (req: Request, res: Response) => {
+  if (
+    process.env.MULTI_USER_SUPPORTED &&
+    Boolean(process.env.MULTI_USER_SUPPORTED) === true
+  )
+    return res
+      .status(200)
+      .json({
+        show_signup: true,
+      })
+      .end();
+
+  if ((await User.findAll()).length > 0)
+    return res
+      .json({
+        show_signup: false,
+      })
+      .end();
+
+  return res
+    .json({
+      show_signup: false,
+    })
+    .end();
+};

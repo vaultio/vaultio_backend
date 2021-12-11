@@ -6,4 +6,14 @@ const DIALECT = process.env.DB_DIALECT || "mysql";
 const USERNAME = process.env.DB_USERNAME || "root";
 const SECRET = process.env.SECRET || "secret";
 
-export { DATABASE_NAME, HOSTNAME, PASSWORD, DIALECT, USERNAME, SECRET };
+const PUBLIC_ROUTES = ["/api/showsignup"];
+
+export {
+  DATABASE_NAME,
+  HOSTNAME,
+  PASSWORD,
+  DIALECT,
+  USERNAME,
+  SECRET,
+  PUBLIC_ROUTES,
+};
