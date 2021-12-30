@@ -53,7 +53,7 @@ export const signup = async (req: Request, res: Response) => {
 
   try {
     const user = await User.findOne({
-      where: { username, email, date_of_birth },
+      where: { [Op.or]: [{ username }, { email }] },
     });
 
     if (user !== null) {
