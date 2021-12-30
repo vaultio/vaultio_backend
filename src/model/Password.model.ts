@@ -20,7 +20,7 @@ interface PasswordInstance
 }
 
 export default (sequelize: Sequelize) => {
-  return sequelize.define<PasswordInstance>("Passwords", {
+  return sequelize.define<PasswordInstance>("passwords", {
     id: {
       primaryKey: true,
       autoIncrement: true,

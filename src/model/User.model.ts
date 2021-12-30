@@ -7,8 +7,8 @@ interface UserAttributes {
   password: string;
   date_of_birth: string;
   access_token: string;
-  passwrord_reset_token: string;
   recovery_mail: string;
+  encrypted_password: string;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -21,7 +21,7 @@ interface UserInstance
 }
 
 export default (sequelize: Sequelize) => {
-  return sequelize.define<UserInstance>("Users", {
+  return sequelize.define<UserInstance>("users", {
     id: {
       primaryKey: true,
       autoIncrement: true,
@@ -48,11 +48,11 @@ export default (sequelize: Sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    passwrord_reset_token: {
+    recovery_mail: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    recovery_mail: {
+    encrypted_password: {
       type: DataTypes.STRING,
       allowNull: true,
     },
