@@ -18,8 +18,13 @@ export default function jwtMiddleware(
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = decodeJWTToken(token);
     if (decodedToken) {
-      if (req.method === "GET") req.query.access_token = token;
-      else req.body.access_token = token;
+      if (req.method === "GET") {
+        req.query.access_token = token;
+        req.query.user_password = decodedToken.password;
+      } else {
+        req.body.access_token = token;
+        req.body.user_password = decodedToken.password;
+      }
 
       return next();
     }

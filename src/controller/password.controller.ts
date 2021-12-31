@@ -3,15 +3,16 @@ import { Password, User } from "../model";
 import { decrypt, encrypt } from "../util/encryption_utils";
 export const addPassword = async (req: Request, res: Response) => {
   try {
-    const { access_token, username, password, website, email } = req.body;
-    if ([username, password].includes(undefined)) {
+    const { access_token, username, password, website, email, user_password } =
+      req.body;
+    if ([username, password, user_password].includes(undefined)) {
       res.status(400).send({ error: "Missing paramters" });
       return;
     }
 
     const user = await User.findOne({ where: { access_token } });
     if (user) {
-      const encryptedPassword = encrypt(password, user.password);
+      const encryptedPassword = encrypt(password, user_password);
       await Password.create({
         id: 0 as number,
         username: username as string,
@@ -34,7 +35,7 @@ export const addPassword = async (req: Request, res: Response) => {
 export const getPassword = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { access_token } = req.query;
+    const { access_token, user_password } = req.query;
 
     if (!id) {
       res.status(400).send({ error: "Missing paramters" });
@@ -51,7 +52,7 @@ export const getPassword = async (req: Request, res: Response) => {
           .status(200)
           .json({
             ...password.toJSON(),
-            password: decrypt(password.password, user.password),
+            password: decrypt(password.password, user_password as string),
           })
           .end();
       } else {
@@ -69,7 +70,7 @@ export const getPassword = async (req: Request, res: Response) => {
 
 export const getAllPassword = async (req: Request, res: Response) => {
   try {
-    const { access_token } = req.query;
+    const { access_token, user_password } = req.query;
     const user = await User.findOne({ where: { access_token } });
     if (user) {
       const passwords = await Password.findAll({
@@ -80,7 +81,7 @@ export const getAllPassword = async (req: Request, res: Response) => {
         const passwordsWithDecryptedPassword = passwords.map((password) => {
           return {
             ...password.toJSON(),
-            password: decrypt(password.password, user.password),
+            password: decrypt(password.password, user_password as string),
           };
         });
         return res.status(200).json(passwordsWithDecryptedPassword).end();

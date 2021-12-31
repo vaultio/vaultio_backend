@@ -18,7 +18,10 @@ export const signin = async (req: Request, res: Response) => {
         return res.status(401).send("Invalid Password").end();
       }
 
-      const access_token = signJWTToken({ user_id: user.id }, 86400000);
+      const access_token = signJWTToken(
+        { user_id: user.id, password },
+        86400000
+      );
       user.access_token = access_token;
       user.save();
       await LoginDetail.create({
