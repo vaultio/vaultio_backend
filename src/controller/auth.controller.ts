@@ -26,6 +26,7 @@ export const signin = async (req: Request, res: Response) => {
       user.save();
       await LoginDetail.create({
         id: 0,
+        user_id: user.id,
         ip: req.ip,
         email: user.username,
         logged_at: new Date(),

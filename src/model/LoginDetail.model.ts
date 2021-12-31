@@ -4,6 +4,7 @@ import { Optional, Sequelize, Model, DataTypes } from "sequelize";
 interface LoginDetailAttributes {
   id: number;
   email: string;
+  user_id: number;
   ip: string;
   logged_at: Date;
   access_token: string;
@@ -22,6 +23,9 @@ export default (sequelize: Sequelize) => {
       primaryKey: true,
       autoIncrement: true,
       unique: true,
+      type: DataTypes.INTEGER,
+    },
+    user_id: {
       type: DataTypes.INTEGER,
     },
     email: {
