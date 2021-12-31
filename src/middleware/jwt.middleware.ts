@@ -8,9 +8,6 @@ export default function jwtMiddleware(
   next: NextFunction
 ) {
   if (PUBLIC_ROUTES.includes(req.path)) return next();
-  if (req.path === "/api/signin" || req.path === "/api/signup") {
-    return next();
-  }
   if (
     req.headers.authorization &&
     req.headers.authorization.split(" ")[0] === "Bearer"
